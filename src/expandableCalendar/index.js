@@ -55,7 +55,8 @@ class ExpandableCalendar extends Component {
     /** source for the right arrow image */
     rightArrowImageSource: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.func]),
     /** whether to have shadow/elevation for the calendar */
-    allowShadow: PropTypes.bool
+    allowShadow: PropTypes.bool,
+    title: PropTypes.string,
   }
 
   static defaultProps = {
@@ -64,7 +65,8 @@ class ExpandableCalendar extends Component {
     firstDay: 0,
     leftArrowImageSource: require('../calendar/img/previous.png'),
     rightArrowImageSource: require('../calendar/img/next.png'),
-    allowShadow: true
+    allowShadow: true,
+    title: null,
   }
 
   static positions = POSITIONS;
@@ -391,6 +393,7 @@ class ExpandableCalendar extends Component {
   }
 
   renderHeader() {
+    const { title } = this.props; 
     const monthYear = XDate(this.props.context.date).toString('MMMM yyyy');
 
     return (
@@ -399,7 +402,7 @@ class ExpandableCalendar extends Component {
         style={[this.style.header, {height: HEADER_HEIGHT, top: this.state.headerDeltaY}]}
         pointerEvents={'none'}
       >
-        <Text allowFontScaling={false} style={this.style.headerTitle}>{monthYear}</Text>
+        <Text allowFontScaling={false} style={this.style.headerTitle}>{title||monthYear}</Text>
         {this.renderWeekDaysNames()}
       </Animated.View>
     );
