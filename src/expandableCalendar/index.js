@@ -56,7 +56,7 @@ class ExpandableCalendar extends Component {
     rightArrowImageSource: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.func]),
     /** whether to have shadow/elevation for the calendar */
     allowShadow: PropTypes.bool,
-    title: PropTypes.string,
+    titleText: PropTypes.string,
   }
 
   static defaultProps = {
@@ -66,7 +66,7 @@ class ExpandableCalendar extends Component {
     leftArrowImageSource: require('../calendar/img/previous.png'),
     rightArrowImageSource: require('../calendar/img/next.png'),
     allowShadow: true,
-    title: null,
+    titleText: null,
   }
 
   static positions = POSITIONS;
@@ -457,7 +457,7 @@ class ExpandableCalendar extends Component {
   }
 
   render() {
-    const {style, hideKnob, horizontal, allowShadow, theme} = this.props;
+    const {style, hideKnob, horizontal, allowShadow, theme, titleText} = this.props;
     const {deltaY, position} = this.state;
     const isOpen = position === POSITIONS.OPEN;
     const themeObject = Object.assign(this.headerStyleOverride, theme);
@@ -485,6 +485,7 @@ class ExpandableCalendar extends Component {
             onPressArrowRight={this.onPressArrowRight}
             hideExtraDays={!horizontal}
             renderArrow={this.renderArrow}
+            titleText={titleText}
             staticHeader
           /> 
           {horizontal && this.renderWeekCalendar()}
