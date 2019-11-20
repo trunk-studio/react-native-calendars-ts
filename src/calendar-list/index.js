@@ -47,10 +47,12 @@ class CalendarList extends Component {
     /** Style for the List item (the calendar) */
     calendarStyle: PropTypes.oneOfType([PropTypes.object, PropTypes.number, PropTypes.array]),
     /** Whether to use static header that will not scroll with the list (horizontal only) */
-    staticHeader: PropTypes.bool
+    staticHeader: PropTypes.bool,
+    titleText: PropTypes.string,
   }
 
   static defaultProps = {
+    titleText: null,
     horizontal: false,
     calendarWidth: width,
     calendarHeight: 360,
@@ -254,7 +256,7 @@ class CalendarList extends Component {
   }
 
   renderStaticHeader() {
-    const {staticHeader, horizontal} = this.props;
+    const {staticHeader, horizontal, titleText} = this.props;
     const useStaticHeader = staticHeader && horizontal;
     
     if (useStaticHeader) {
@@ -267,6 +269,7 @@ class CalendarList extends Component {
         <CalendarHeader
           style={[this.style.staticHeader, this.props.headerStyle]}
           month={this.state.currentMonth}
+          titleText={titleText}
           addMonth={this.addMonth}
           showIndicator={indicator}
           theme={this.props.theme}
