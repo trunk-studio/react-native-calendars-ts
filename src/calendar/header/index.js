@@ -12,6 +12,7 @@ class CalendarHeader extends Component {
   static displayName = 'IGNORE';
   
   static propTypes = {
+    titleText: PropTypes.string,
     theme: PropTypes.object,
     hideArrows: PropTypes.bool,
     month: PropTypes.instanceOf(XDate),
@@ -26,7 +27,7 @@ class CalendarHeader extends Component {
   };
 
   static defaultProps = {
-    monthFormat: 'MMMM yyyy'
+    monthFormat: 'MMMM yyyy',
   };
 
   constructor(props) {
@@ -63,6 +64,9 @@ class CalendarHeader extends Component {
       return true;
     }
     if (nextProps.monthFormat !== this.props.monthFormat) {
+      return true;
+    }
+    if (nextProps.titleText !== this.props.titleText) {
       return true;
     }
     return false;
@@ -134,7 +138,7 @@ class CalendarHeader extends Component {
           {leftArrow}
           <View style={{ flexDirection: 'row' }}>
             <Text allowFontScaling={false} style={this.style.monthText} accessibilityTraits='header'>
-              {this.props.month.toString(this.props.monthFormat)}
+              {this.props.titleText || this.props.month.toString(this.props.monthFormat)}
             </Text>
             {indicator}
           </View>
