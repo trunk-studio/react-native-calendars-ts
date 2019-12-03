@@ -16,7 +16,7 @@ import {parseDate} from '../interface';
 import styleConstructor from './style';
 import CalendarList from '../calendar-list';
 import asCalendarConsumer from './asCalendarConsumer';
-import WeekCalendar from './weekCalendar';
+import Week from './week';
 
 
 const commons = require('./commons');
@@ -423,7 +423,7 @@ class ExpandableCalendar extends Component {
         }}
         pointerEvents={position === POSITIONS.CLOSED ? 'auto' : 'none'}
       >
-        <WeekCalendar
+        <Week
           {...this.props}
           current={this.props.context.date}
           onDayPress={this.onDayPress}
