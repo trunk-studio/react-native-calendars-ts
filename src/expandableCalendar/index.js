@@ -498,6 +498,7 @@ class ExpandableCalendar extends Component {
       <Animated.View
         ref={e => (this.weekCalendar = e)}
         style={{
+          zIndex: 999999,
           position: 'absolute',
           left: 0,
           right: 0,
