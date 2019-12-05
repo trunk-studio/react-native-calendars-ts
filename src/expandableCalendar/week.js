@@ -137,9 +137,6 @@ class Week extends Component {
     const dayDate = day.getDate();
     const dateAsObject = xdateToData(day);
 
-    console.log('dayDate=>', dayDate);
-    console.log('dateAsObject=>', dateAsObject);
-
     return (
       <View style={{flex: 1, alignItems: 'center'}} key={id}>
         <DayComp
