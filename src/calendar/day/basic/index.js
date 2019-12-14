@@ -1,3 +1,6 @@
+// use TouchableOpacity from react-native-gesture-handler to prevent missing touch event.
+// ref: https://stackoverflow.com/a/58019997/8865942
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import React, {Component} from 'react';
 import {TouchableOpacity, Text, View} from 'react-native';
 import PropTypes from 'prop-types';
