@@ -304,6 +304,7 @@ class Calendar extends Component {
         <CalendarHeader
           style={this.props.headerStyle}
           theme={this.props.theme}
+          titleText={this.props.titleText}
           hideArrows={this.props.hideArrows}
           month={this.state.currentMonth}
           addMonth={this.addMonth}
