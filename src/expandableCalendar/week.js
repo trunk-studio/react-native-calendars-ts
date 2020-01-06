@@ -110,10 +110,16 @@ class Week extends Component {
     if (this.props.disabledByDefault) {
       if (marking && (marking.selected || marking.marked)) {
         state = '';
+      } else if (marking && marking.disabled) {
+        state = 'disabled';
+        marking.disableTouchEvent = true;
       } else {
         state = 'disabled';
         marking.disableTouchEvent = true;
       }
+    } else if (marking && marking.disabled) {
+      state = 'disabled';
+      marking.disableTouchEvent = true;
     } else if (
       (minDate && !dateutils.isGTE(day, minDate)) ||
       (maxDate && !dateutils.isLTE(day, maxDate))

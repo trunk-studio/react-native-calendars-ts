@@ -10,6 +10,7 @@ export default function styleConstructor(theme = {}) {
       width: 32,
       height: 32,
       alignItems: 'center',
+      ...appStyle.selectedDotStyle,
     },
     text: {
       marginTop: Platform.OS === 'android' ? 4 : 6,
