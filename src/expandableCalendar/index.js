@@ -20,11 +20,11 @@ const POSITIONS = {
 };
 const SPEED = 20;
 const BOUNCINESS = 6;
-const CLOSED_HEIGHT = 120; // header + 1 week
-const WEEK_HEIGHT = 46;
 const KNOB_CONTAINER_HEIGHT = 20;
-const HEADER_HEIGHT = 68;
 const DAY_NAMES_PADDING = 24;
+let CLOSED_HEIGHT = 120; // header + 1 week
+let WEEK_HEIGHT = 46;
+let HEADER_HEIGHT = 68;
 
 /**
  * @description: Expandable calendar component
@@ -61,6 +61,9 @@ class ExpandableCalendar extends Component {
     disableLeftArrow: PropTypes.bool,
     disableRightArrow: PropTypes.bool,
     onExpandStateChange: PropTypes.func,
+    CLOSED_HEIGHT: PropTypes.number,
+    WEEK_HEIGHT: PropTypes.number,
+    HEADER_HEIGHT: PropTypes.number,
   };
 
   static defaultProps = {
@@ -73,6 +76,9 @@ class ExpandableCalendar extends Component {
     titleText: null,
     disableLeftArrow: false,
     disableRightArrow: false,
+    CLOSED_HEIGHT: 120,
+    WEEK_HEIGHT: 46,
+    HEADER_HEIGHT: 68,
   };
 
   static positions = POSITIONS;
@@ -87,6 +93,16 @@ class ExpandableCalendar extends Component {
       XDate(this.props.context.date),
     );
     this.openHeight = this.getOpenHeight();
+
+    if (props.CLOSED_HEIGHT && props.CLOSED_HEIGHT !== CLOSED_HEIGHT) {
+      CLOSED_HEIGHT = this.props.CLOSED_HEIGHT;
+    }
+    if (props.WEEK_HEIGHT && props.WEEK_HEIGHT !== WEEK_HEIGHT) {
+      WEEK_HEIGHT = this.props.WEEK_HEIGHT;
+    }
+    if (props.HEADER_HEIGHT && props.HEADER_HEIGHT !== HEADER_HEIGHT) {
+      HEADER_HEIGHT = this.props.HEADER_HEIGHT;
+    }
 
     const startHeight =
       props.initialPosition === POSITIONS.CLOSED
