@@ -581,7 +581,7 @@ class ExpandableCalendar extends Component {
             this.wrapper = e;
           }}
           style={{height: deltaY}}
-          {...this.panResponder.panHandlers}>
+          {...(!hideKnob ? this.panResponder.panHandlers : null)}>
           <CalendarList
             testID="calendar"
             {...this.props}
