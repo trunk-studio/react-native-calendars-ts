@@ -570,6 +570,7 @@ class ExpandableCalendar extends Component {
       titleText,
       disableLeftArrow,
       disableRightArrow,
+      scrollEnabled,
     } = this.props;
     const {deltaY, position} = this.state;
     const isOpen = position === POSITIONS.OPEN;
@@ -591,7 +592,7 @@ class ExpandableCalendar extends Component {
             onDayPress={this.onDayPress}
             onVisibleMonthsChange={this.onVisibleMonthsChange}
             pagingEnabled
-            scrollEnabled={isOpen}
+            scrollEnabled={scrollEnabled ? isOpen : false}
             markedDates={this.getMarkedDates()}
             hideArrows={this.shouldHideArrows()}
             onPressArrowLeft={this.onPressArrowLeft}
