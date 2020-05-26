@@ -19,7 +19,10 @@ class CalendarListItem extends Component {
   shouldComponentUpdate(nextProps) {
     const r1 = this.props.item;
     const r2 = nextProps.item;
+    const {disableRightArrow, disableLeftArrow} = this.props;
     return (
+      nextProps.disableRightArrow !== disableRightArrow ||
+      nextProps.disableLeftArrow !== disableLeftArrow ||
       r1.toString('yyyy MM') !== r2.toString('yyyy MM') ||
       !!(r2.propbump && r2.propbump !== r1.propbump)
     );
@@ -67,6 +70,7 @@ class CalendarListItem extends Component {
           hideExtraDays={this.props.hideExtraDays}
           disableMonthChange
           titleText={this.props.titleText}
+          onShowTitleText={this.props.onShowTitleText}
           markedDates={this.props.markedDates}
           markingType={this.props.markingType}
           hideDayNames={this.props.hideDayNames}

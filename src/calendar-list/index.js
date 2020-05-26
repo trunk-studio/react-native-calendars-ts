@@ -137,10 +137,7 @@ class CalendarList extends Component {
   scrollToDay(d, offset, animated) {
     const day = parseDate(d);
     const diffMonths = Math.round(
-      this.state.openDate
-        .clone()
-        .setDate(1)
-        .diffMonths(day.clone().setDate(1)),
+      this.state.openDate.clone().setDate(1).diffMonths(day.clone().setDate(1)),
     );
     const size = this.props.horizontal
       ? this.props.calendarWidth
@@ -278,7 +275,7 @@ class CalendarList extends Component {
     return diffMonths;
   }
 
-  addMonth = count => {
+  addMonth = (count) => {
     this.updateMonth(this.state.currentMonth.clone().addMonths(count, true));
   };
 
@@ -310,7 +307,7 @@ class CalendarList extends Component {
   }
 
   renderStaticHeader() {
-    const {staticHeader, horizontal, titleText} = this.props;
+    const {staticHeader, horizontal, titleText, onShowTitleText} = this.props;
     const useStaticHeader = staticHeader && horizontal;
 
     if (useStaticHeader) {
@@ -328,6 +325,7 @@ class CalendarList extends Component {
           style={[this.style.staticHeader, this.props.headerStyle]}
           month={this.state.currentMonth}
           titleText={titleText}
+          onShowTitleText={onShowTitleText}
           addMonth={this.addMonth}
           showIndicator={indicator}
           theme={this.props.theme}
@@ -352,7 +350,7 @@ class CalendarList extends Component {
       <View>
         <FlatList
           onLayout={this.onLayout}
-          ref={c => (this.listView = c)}
+          ref={(c) => (this.listView = c)}
           //scrollEventThrottle={1000}
           style={[this.style.container, this.props.style]}
           initialListSize={

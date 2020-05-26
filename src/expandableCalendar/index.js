@@ -231,7 +231,7 @@ class ExpandableCalendar extends Component {
     }
     return (
       CLOSED_HEIGHT +
-      WEEK_HEIGHT * (this.numberOfWeeks - 1) +
+      WEEK_HEIGHT * (this.numberOfWeeks + 1) +
       (this.props.hideKnob ? 12 : KNOB_CONTAINER_HEIGHT)
     );
   }
@@ -402,7 +402,7 @@ class ExpandableCalendar extends Component {
     this.scrollPage(true);
   };
 
-  onDayPress = value => {
+  onDayPress = (value) => {
     // {year: 2019, month: 4, day: 22, timestamp: 1555977600000, dateString: "2019-04-23"}
     _.invoke(
       this.props.context,
@@ -424,7 +424,7 @@ class ExpandableCalendar extends Component {
     }, 0);
   };
 
-  onVisibleMonthsChange = value => {
+  onVisibleMonthsChange = (value) => {
     if (this.visibleMonth !== _.first(value).month) {
       this.visibleMonth = _.first(value).month; // equivalent to this.getMonth(value[0].dateString)
 
@@ -493,7 +493,7 @@ class ExpandableCalendar extends Component {
 
     return (
       <Animated.View
-        ref={e => (this.header = e)}
+        ref={(e) => (this.header = e)}
         style={[
           this.style.header,
           {height: HEADER_HEIGHT, top: this.state.headerDeltaY},
@@ -512,7 +512,7 @@ class ExpandableCalendar extends Component {
 
     return (
       <Animated.View
-        ref={e => (this.weekCalendar = e)}
+        ref={(e) => (this.weekCalendar = e)}
         style={{
           zIndex: 999999,
           position: 'absolute',
@@ -543,7 +543,7 @@ class ExpandableCalendar extends Component {
     );
   }
 
-  renderArrow = direction => {
+  renderArrow = (direction) => {
     if (_.isFunction(this.props.renderArrow)) {
       this.props.renderArrow(direction);
     }
@@ -578,7 +578,7 @@ class ExpandableCalendar extends Component {
     return (
       <View style={[allowShadow && this.style.containerShadow, style]}>
         <Animated.View
-          ref={e => {
+          ref={(e) => {
             this.wrapper = e;
           }}
           style={{height: deltaY}}
@@ -587,7 +587,7 @@ class ExpandableCalendar extends Component {
             testID="calendar"
             {...this.props}
             theme={themeObject}
-            ref={r => (this.calendar = r)}
+            ref={(r) => (this.calendar = r)}
             current={this.initialDate}
             onDayPress={this.onDayPress}
             onVisibleMonthsChange={this.onVisibleMonthsChange}
