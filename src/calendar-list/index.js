@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
+import {debounce} from 'lodash';
 
 import {xdateToData, parseDate} from '../interface';
 import styleConstructor from './style';
@@ -66,9 +67,9 @@ class CalendarList extends Component {
     titleText: null,
     horizontal: false,
     calendarWidth: width,
-    calendarHeight: 360,
-    pastScrollRange: 50,
-    futureScrollRange: 50,
+    calendarHeight: 500,
+    pastScrollRange: 100,
+    futureScrollRange: 100,
     showScrollIndicator: false,
     scrollEnabled: true,
     scrollsToTop: false,
@@ -104,15 +105,17 @@ class CalendarList extends Component {
        * This selects range around current shown month [-0, +2] or [-1, +1] month for detail calendar rendering.
        * If `this.pastScrollRange` is `undefined` it's equal to `false` or 0 in next condition.
        */
-      if (
-        (this.props.pastScrollRange - 1 <= i &&
-          i <= this.props.pastScrollRange + 1) ||
-        (!this.props.pastScrollRange && i <= this.props.pastScrollRange + 2)
-      ) {
-        rows.push(rangeDate);
-      } else {
-        rows.push(rangeDateStr);
-      }
+      // if (
+      //   (this.props.pastScrollRange - 1 <= i &&
+      //     i <= this.props.pastScrollRange + 1) ||
+      //   (!this.props.pastScrollRange && i <= this.props.pastScrollRange + 2)
+      // ) {
+      //   rows.push(rangeDate);
+      // } else {
+      //   rows.push(rangeDateStr);
+      // }
+
+      rows.push(rangeDate);
     }
 
     this.state = {
@@ -216,7 +219,7 @@ class CalendarList extends Component {
 
     for (let i = 0; i < rowclone.length; i++) {
       let val = rowclone[i];
-      const rowShouldBeRendered = rowIsCloseToViewable(i, 1);
+      const rowShouldBeRendered = rowIsCloseToViewable(i, 5);
 
       if (rowShouldBeRendered && !rowclone[i].getTime) {
         val = this.state.openDate
@@ -307,7 +310,7 @@ class CalendarList extends Component {
   }
 
   renderStaticHeader() {
-    const {staticHeader, horizontal, titleText, onShowTitleText} = this.props;
+    const {staticHeader, horizontal, titleText} = this.props;
     const useStaticHeader = staticHeader && horizontal;
 
     if (useStaticHeader) {
@@ -325,7 +328,6 @@ class CalendarList extends Component {
           style={[this.style.staticHeader, this.props.headerStyle]}
           month={this.state.currentMonth}
           titleText={titleText}
-          onShowTitleText={onShowTitleText}
           addMonth={this.addMonth}
           showIndicator={indicator}
           theme={this.props.theme}
@@ -359,12 +361,12 @@ class CalendarList extends Component {
           data={this.state.rows}
           //snapToAlignment='start'
           //snapToInterval={this.calendarHeight}
-          removeClippedSubviews={this.props.removeClippedSubviews}
-          pageSize={1}
+          // removeClippedSubviews={this.props.removeClippedSubviews}
+          // pageSize={50}
           horizontal={this.props.horizontal}
           pagingEnabled={this.props.pagingEnabled}
           onViewableItemsChanged={this.onViewableItemsChangedBound}
-          viewabilityConfig={this.viewabilityConfig}
+          // viewabilityConfig={this.viewabilityConfig}
           renderItem={this.renderCalendarBound}
           showsVerticalScrollIndicator={this.props.showScrollIndicator}
           showsHorizontalScrollIndicator={this.props.showScrollIndicator}

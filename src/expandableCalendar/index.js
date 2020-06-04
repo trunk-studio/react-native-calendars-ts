@@ -1,6 +1,13 @@
 import _ from 'lodash';
 import React, {Component} from 'react';
-import {PanResponder, Animated, View, Text, Image} from 'react-native';
+import {
+  PanResponder,
+  Animated,
+  Platform,
+  View,
+  Text,
+  Image,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
 import {CALENDAR_KNOB} from '../testIDs';
@@ -18,7 +25,7 @@ const POSITIONS = {
   CLOSED: 'closed',
   OPEN: 'open',
 };
-const SPEED = 20;
+const SPEED = 100;
 const BOUNCINESS = 6;
 const KNOB_CONTAINER_HEIGHT = 20;
 const DAY_NAMES_PADDING = 24;
@@ -226,13 +233,13 @@ class ExpandableCalendar extends Component {
 
   /** Utils */
   getOpenHeight() {
-    if (!this.props.horizontal) {
-      return Math.max(commons.screenHeight, commons.screenWidth);
-    }
+    // if (!this.props.horizontal) {
+    //   return Math.max(commons.screenHeight, commons.screenWidth);
+    // }
+    const offset = Platform.OS === 'ios' ? 1 : 0.5;
     return (
-      CLOSED_HEIGHT +
-      WEEK_HEIGHT * (this.numberOfWeeks + 1) +
-      (this.props.hideKnob ? 12 : KNOB_CONTAINER_HEIGHT)
+      CLOSED_HEIGHT + WEEK_HEIGHT * (this.numberOfWeeks + offset)
+      // (this.props.hideKnob ? 12 : KNOB_CONTAINER_HEIGHT)
     );
   }
 
@@ -355,6 +362,7 @@ class ExpandableCalendar extends Component {
         toValue: this._height,
         speed: SPEED,
         bounciness: BOUNCINESS,
+        useNativeDriver: false,
       }).start(this.onAnimatedFinished);
 
       this.setPosition();
@@ -389,6 +397,7 @@ class ExpandableCalendar extends Component {
         toValue: 0,
         speed: SPEED / 10,
         bounciness: 1,
+        useNativeDriver: false,
       }).start();
     }
   }
@@ -396,10 +405,17 @@ class ExpandableCalendar extends Component {
   /** Events */
 
   onPressArrowLeft = () => {
-    this.scrollPage(false);
+    const {disableLeftArrow} = this.props;
+    if (!disableLeftArrow) {
+      this.scrollPage(false);
+    }
   };
+
   onPressArrowRight = () => {
-    this.scrollPage(true);
+    const {disableRightArrow} = this.props;
+    if (!disableRightArrow) {
+      this.scrollPage(true);
+    }
   };
 
   onDayPress = (value) => {
