@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import XDate from 'xdate';
-import {debounce} from 'lodash';
 
 import {xdateToData, parseDate} from '../interface';
 import styleConstructor from './style';
@@ -67,9 +66,9 @@ class CalendarList extends Component {
     titleText: null,
     horizontal: false,
     calendarWidth: width,
-    calendarHeight: 500,
-    pastScrollRange: 100,
-    futureScrollRange: 100,
+    calendarHeight: 360,
+    pastScrollRange: 500,
+    futureScrollRange: 500,
     showScrollIndicator: false,
     scrollEnabled: true,
     scrollsToTop: false,
@@ -114,7 +113,6 @@ class CalendarList extends Component {
       // } else {
       //   rows.push(rangeDateStr);
       // }
-
       rows.push(rangeDate);
     }
 
@@ -219,7 +217,7 @@ class CalendarList extends Component {
 
     for (let i = 0; i < rowclone.length; i++) {
       let val = rowclone[i];
-      const rowShouldBeRendered = rowIsCloseToViewable(i, 5);
+      const rowShouldBeRendered = rowIsCloseToViewable(i, 1);
 
       if (rowShouldBeRendered && !rowclone[i].getTime) {
         val = this.state.openDate
@@ -310,7 +308,7 @@ class CalendarList extends Component {
   }
 
   renderStaticHeader() {
-    const {staticHeader, horizontal, titleText} = this.props;
+    const {staticHeader, horizontal, titleText, onShowTitleText} = this.props;
     const useStaticHeader = staticHeader && horizontal;
 
     if (useStaticHeader) {
@@ -328,6 +326,7 @@ class CalendarList extends Component {
           style={[this.style.staticHeader, this.props.headerStyle]}
           month={this.state.currentMonth}
           titleText={titleText}
+          onShowTitleText={onShowTitleText}
           addMonth={this.addMonth}
           showIndicator={indicator}
           theme={this.props.theme}
@@ -361,12 +360,12 @@ class CalendarList extends Component {
           data={this.state.rows}
           //snapToAlignment='start'
           //snapToInterval={this.calendarHeight}
-          // removeClippedSubviews={this.props.removeClippedSubviews}
-          // pageSize={50}
+          removeClippedSubviews={this.props.removeClippedSubviews}
+          pageSize={100}
           horizontal={this.props.horizontal}
           pagingEnabled={this.props.pagingEnabled}
           onViewableItemsChanged={this.onViewableItemsChangedBound}
-          // viewabilityConfig={this.viewabilityConfig}
+          viewabilityConfig={this.viewabilityConfig}
           renderItem={this.renderCalendarBound}
           showsVerticalScrollIndicator={this.props.showScrollIndicator}
           showsHorizontalScrollIndicator={this.props.showScrollIndicator}
