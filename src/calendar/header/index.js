@@ -1,3 +1,5 @@
+import {throttle, debounce} from 'lodash';
+
 import React, {Component} from 'react';
 import {ActivityIndicator} from 'react-native';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
@@ -6,6 +8,59 @@ import PropTypes from 'prop-types';
 import styleConstructor from './style';
 import {weekDayNames} from '../../dateutils';
 import {CHANGE_MONTH_LEFT_ARROW, CHANGE_MONTH_RIGHT_ARROW} from '../../testIDs';
+
+const withPreventDoublePress = (WrappedComponent) => {
+  const APPEND_DISABLED_TIME = 250;
+  const PREPEND_DISABLED_TIME = 750;
+
+  class PreventDoublePress extends React.PureComponent {
+    state = {
+      onPressDisabled: false,
+    };
+
+    originalOnPress = (cb) => {
+      setTimeout(() => {
+        this.props.onPress && this.props.onPress();
+
+        cb && cb();
+      }, APPEND_DISABLED_TIME);
+    };
+
+    onPress = () => {
+      if (this.state.onPressDisabled) return;
+
+      const funcAfterOnPressTriggered = () =>
+        setTimeout(
+          () => this.setState({onPressDisabled: false}),
+          PREPEND_DISABLED_TIME,
+        );
+
+      const funcAfterStateUpdated = () =>
+        this.originalOnPress(funcAfterOnPressTriggered);
+
+      this.setState({onPressDisabled: true}, funcAfterStateUpdated);
+    };
+
+    render() {
+      const disabled = this.state.onPressDisabled || this.props.disabled;
+      return (
+        <WrappedComponent
+          {...this.props}
+          disabled={disabled}
+          style={[this.props.style, disabled && {opacity: 0.2}]}
+          onPress={this.onPress}
+        />
+      );
+    }
+  }
+
+  PreventDoublePress.displayName = `withPreventDoublePress(${
+    WrappedComponent.displayName || WrappedComponent.name
+  })`;
+  return PreventDoublePress;
+};
+
+const Button = withPreventDoublePress(TouchableOpacity);
 
 class CalendarHeader extends Component {
   static displayName = 'IGNORE';
@@ -102,7 +157,7 @@ class CalendarHeader extends Component {
 
     if (!this.props.hideArrows) {
       leftArrow = (
-        <TouchableOpacity
+        <Button
           onPress={this.onPressLeft}
           style={[
             this.style.arrow,
@@ -123,10 +178,10 @@ class CalendarHeader extends Component {
               style={this.style.arrowImage}
             />
           )}
-        </TouchableOpacity>
+        </Button>
       );
       rightArrow = (
-        <TouchableOpacity
+        <Button
           onPress={this.onPressRight}
           style={[
             this.style.arrow,
@@ -147,7 +202,7 @@ class CalendarHeader extends Component {
               style={this.style.arrowImage}
             />
           )}
-        </TouchableOpacity>
+        </Button>
       );
     }
 
