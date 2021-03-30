@@ -1,5 +1,3 @@
-import {throttle, debounce} from 'lodash';
-
 import React, {Component} from 'react';
 import {ActivityIndicator} from 'react-native';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
