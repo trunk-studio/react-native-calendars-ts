@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {ActivityIndicator} from 'react-native';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import { TouchableOpacity as TouchableOpacityAndroid } from 'react-native-gesture-handler'
+import {View, Text,  Image, TouchableOpacity, Platform} from 'react-native';
 import XDate from 'xdate';
 import PropTypes from 'prop-types';
 import styleConstructor from './style';
@@ -58,7 +59,7 @@ const withPreventDoublePress = (WrappedComponent) => {
   return PreventDoublePress;
 };
 
-const Button = withPreventDoublePress(TouchableOpacity);
+const Button = withPreventDoublePress(Platform.OS==='ios' ? TouchableOpacity  :TouchableOpacityAndroid);
 
 class CalendarHeader extends Component {
   static displayName = 'IGNORE';
