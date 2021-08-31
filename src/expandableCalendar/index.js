@@ -430,7 +430,7 @@ class ExpandableCalendar extends Component {
     setTimeout(() => {
       // to allows setDate to be completed
       if (this.state.position === POSITIONS.OPEN) {
-        this.bounceToPosition(this.closedHeight);
+        // this.bounceToPosition(this.closedHeight);
 
         const {onExpandStateChange} = this.props;
         if (typeof onExpandStateChange === 'function') {
